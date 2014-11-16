@@ -1,0 +1,9 @@
+[package]
+
+name = "component_store"
+version = "0.0.1"
+authors = ["Mark Schifflin <rschifflin@hotmail.com>"]
+
+[lib]
+name = "component_store"
+crate_type = ["dylib"]
