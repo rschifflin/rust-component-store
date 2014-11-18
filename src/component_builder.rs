@@ -3,6 +3,8 @@ use syntax::ptr::P;
 use syntax::ext::base::ExtCtxt;
 use syntax::parse::token;
 
+use utils::string_utils::lower_case;
+
 #[deriving(Show, Clone)]
 pub struct ComponentBuilder {
   pub name: String,
@@ -11,18 +13,10 @@ pub struct ComponentBuilder {
 }
 
 impl ComponentBuilder {
-  fn lowerize(s: &String) -> String {
-    let mut lower = String::new();
-    for c in s.to_ascii().iter() {
-      lower.push(c.to_lowercase().to_char());
-    }
-    lower
-  }
-
   pub fn new(name: String, plural: String, indices: Vec<String>) -> ComponentBuilder {
     ComponentBuilder {
       name: name,
-      plural: ComponentBuilder::lowerize(&plural),
+      plural: lower_case(&plural),
       indices: indices
     }
   }
@@ -46,8 +40,8 @@ impl ComponentBuilder {
   }
 
   pub fn build_fns(&self, context: &ExtCtxt) -> Vec<P<ast::Item>> {
-    let foo_string = ComponentBuilder::lowerize(&self.name) + "_foo".to_string();
-    let bar_string = ComponentBuilder::lowerize(&self.name) + "_bar".to_string();
+    let foo_string = lower_case(&self.name) + "_foo".to_string();
+    let bar_string = lower_case(&self.name) + "_bar".to_string();
 
     let name_ident = ast::Ident::new(token::intern(self.name.as_slice()));
     let plural_ident = ast::Ident::new(token::intern(self.plural.as_slice()));
@@ -70,4 +64,3 @@ impl ComponentBuilder {
     foobar.into_iter().map(|item| item.unwrap()).collect()
   }
 }
-

@@ -19,6 +19,9 @@ use ecs_builder::ECSBuilder;
 mod ecs_parser;
 mod ecs_builder;
 mod component_builder;
+mod utils {
+  pub mod string_utils;
+}
 
 #[plugin_registrar]
 pub fn plugin_registrar(reg: &mut Registry) {
