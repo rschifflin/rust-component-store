@@ -9,10 +9,14 @@ pub struct Position;
 #[deriving(Show, Clone)]
 pub struct Color;
 
+#[deriving(Show, Clone)]
+pub struct Radius;
+
 component_store!(
   components:
-    Color/Colorae <- Foo, Bar
-    Position/Positionae <- Foo, Bar
+    Color
+    Position
+    Radius/Radii <- Range
 )
 
 fn main() {

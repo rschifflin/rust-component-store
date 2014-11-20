@@ -2,6 +2,7 @@ use syntax::parse::parser::Parser;
 use syntax::parse::token;
 use ecs_builder::ECSBuilder;
 use component_builder::ComponentBuilder;
+use utils::result_utils::ResultUtils;
 
 pub fn parse(parser: &mut Parser) -> Result<ECSBuilder, &'static str> {
 
@@ -55,16 +56,15 @@ fn parse_components_recursive(parser: &mut Parser, mut components: Vec<Result<Co
 }
 
 fn parse_component(parser: &mut Parser) -> Result<ComponentBuilder, &'static str> {
-  //TODO "Use flat_map instead of early return try!s"
-
-  let name = try!(parse_component_name(parser));
-  let plural = try!(parse_optional_plural(parser));
-  let indices = try!(parse_optional_indices(parser));
-
-  let plural_or_default = plural.unwrap_or(name + "s".to_string());
-  let indices_or_default = indices.unwrap_or(Vec::new());
-
-  Ok(ComponentBuilder::new(name, plural_or_default, indices_or_default))
+  parse_component_name(parser).flat_map(|name| -> Result<ComponentBuilder, &'static str> {
+    parse_optional_plural(parser).flat_map(|plural| -> Result<ComponentBuilder, &'static str> {
+      parse_optional_indices(parser).flat_map(|indices| -> Result<ComponentBuilder, &'static str> {
+        let plural_or_default = plural.clone().unwrap_or(name + "s".to_string());
+        let indices_or_default = indices.clone().unwrap_or(Vec::new());
+        Ok(ComponentBuilder::new(name.clone(), plural_or_default, indices_or_default))
+      })
+    })
+  })
 }
 
 fn parse_component_name(parser: &mut Parser) -> Result<String, &'static str> {

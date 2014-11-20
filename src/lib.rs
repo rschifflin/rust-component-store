@@ -16,12 +16,15 @@ use syntax::ext::build::AstBuilder;
 use rustc::plugin::Registry;
 use ecs_builder::ECSBuilder;
 
+mod utils {
+  pub mod string_utils;
+  pub mod result_utils;
+}
+
 mod ecs_parser;
 mod ecs_builder;
 mod component_builder;
-mod utils {
-  pub mod string_utils;
-}
+
 
 #[plugin_registrar]
 pub fn plugin_registrar(reg: &mut Registry) {
@@ -31,7 +34,7 @@ pub fn plugin_registrar(reg: &mut Registry) {
 fn expand(context: &mut ExtCtxt, span: Span, tokens: &[TokenTree]) -> Box<MacResult + 'static> {
   let ecs_builder = match parse(context, tokens) {
     Ok(result) => result,
-    Err(e) => ECSBuilder { component_builders: Vec::new() }
+    Err(e) => panic!(e)
   };
   let ecs = MacroResult { ecs: ecs_builder.build(context) };
   box ecs as Box<MacResult>
