@@ -5,4 +5,3 @@ pub fn lower_case(s: &String) -> String {
   }
   lower
 }
-

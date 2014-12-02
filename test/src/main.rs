@@ -15,8 +15,7 @@ pub struct Radius;
 component_store!(
   components:
     Color
-    Position
-    Radius/Radii <- Range
+    Position/Positions <- Range
 )
 
 fn main() {
