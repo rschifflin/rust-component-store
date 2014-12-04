@@ -3,6 +3,7 @@
 #[phase(plugin)]
 extern crate component_store;
 
+use std::collections::HashMap;
 #[deriving(Show, Clone)]
 pub struct Position;
 
