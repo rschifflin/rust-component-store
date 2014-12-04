@@ -2,7 +2,6 @@ use syntax::ast;
 use syntax::ptr::P;
 use component_builder::ComponentBuilder;
 use syntax::ext::base::ExtCtxt;
-use syntax::parse::token;
 
 #[deriving(Show)]
 pub struct ECSBuilder {
@@ -26,11 +25,6 @@ impl ECSBuilder {
         builder.build_init(context)
       }).collect();
 
-    let component_fns: Vec<Vec<P<ast::Item>>> =
-      self.component_builders.iter().map(|builder| -> Vec<P<ast::Item>> {
-        builder.build_fns(context)
-      }).collect();
-
     let structure = quote_item!(context,
       #[deriving(Show, Clone)]
       pub struct ECS<'a> {
@@ -45,8 +39,6 @@ impl ECSBuilder {
             $component_inits
           }
         }
-
-        $component_fns
       }
     );
 

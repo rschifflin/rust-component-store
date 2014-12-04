@@ -7,12 +7,10 @@ extern crate rustc;
 use syntax::ast;
 use syntax::ptr::P;
 use syntax::util::small_vector::SmallVector;
-use syntax::parse::token;
 use syntax::parse;
 use syntax::ast::TokenTree;
-use syntax::ext::base::{ExtCtxt, MacExpr, MacResult};
+use syntax::ext::base::{ExtCtxt, MacResult};
 use syntax::codemap::Span;
-use syntax::ext::build::AstBuilder;
 use rustc::plugin::Registry;
 use ecs_builder::ECSBuilder;
 
@@ -31,7 +29,7 @@ pub fn plugin_registrar(reg: &mut Registry) {
   reg.register_macro("component_store", expand);
 }
 
-fn expand(context: &mut ExtCtxt, span: Span, tokens: &[TokenTree]) -> Box<MacResult + 'static> {
+fn expand(context: &mut ExtCtxt, _: Span, tokens: &[TokenTree]) -> Box<MacResult + 'static> {
   let ecs_builder = match parse(context, tokens) {
     Ok(result) => result,
     Err(e) => panic!(e)
