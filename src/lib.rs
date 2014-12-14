@@ -16,7 +16,6 @@ use ecs_builder::ECSBuilder;
 
 mod utils {
   pub mod string_utils;
-  pub mod result_utils;
 }
 
 mod ecs_parser;

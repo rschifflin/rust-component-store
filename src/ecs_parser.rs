@@ -2,7 +2,6 @@ use syntax::parse::parser::Parser;
 use syntax::parse::token;
 use ecs_builder::ECSBuilder;
 use component_builder::ComponentBuilder;
-use utils::result_utils::ResultUtils;
 
 pub fn parse(parser: &mut Parser) -> Result<ECSBuilder, &'static str> {
 
@@ -56,9 +55,9 @@ fn parse_components_recursive(parser: &mut Parser, mut components: Vec<Result<Co
 }
 
 fn parse_component(parser: &mut Parser) -> Result<ComponentBuilder, &'static str> {
-  parse_component_name(parser).flat_map(|name| -> Result<ComponentBuilder, &'static str> {
-    parse_optional_plural(parser).flat_map(|plural| -> Result<ComponentBuilder, &'static str> {
-      parse_optional_indices(parser).flat_map(|indices| -> Result<ComponentBuilder, &'static str> {
+  parse_component_name(parser).and_then(|name| -> Result<ComponentBuilder, &'static str> {
+    parse_optional_plural(parser).and_then(|plural| -> Result<ComponentBuilder, &'static str> {
+      parse_optional_indices(parser).and_then(|indices| -> Result<ComponentBuilder, &'static str> {
         let plural_or_default = plural.clone().unwrap_or(name + "s".to_string());
         let indices_or_default = indices.clone().unwrap_or(Vec::new());
         Ok(ComponentBuilder::new(name.clone(), plural_or_default, indices_or_default))
