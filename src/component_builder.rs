@@ -70,14 +70,14 @@ impl ComponentBuilder {
 
     let structure = quote_item!(context,
       #[deriving(Clone, Show)]
-      pub struct $index_ident<'a> {
-        primary_index: HashMap<&'a str, $name_ident>
+      pub struct $index_ident {
+        primary_index: HashMap<String, $name_ident>
       }
     );
 
     let implementation = quote_item!(context,
-      impl<'a> $index_ident<'a> {
-        pub fn new() -> $index_ident<'a> {
+      impl $index_ident {
+        pub fn new() -> $index_ident {
           $index_ident {
             primary_index: HashMap::new()
           }
@@ -87,11 +87,11 @@ impl ComponentBuilder {
           self.primary_index.values().collect()
         }
 
-        pub fn $find_ident(&self, key: &'a str) -> Option<&$name_ident> {
+        pub fn $find_ident(&self, key: String) -> Option<&$name_ident> {
           self.primary_index.get(&key)
         }
 
-        pub fn $update_ident(&mut self, key: &'a str, value: $name_ident) -> Option<$name_ident> {
+        pub fn $update_ident(&mut self, key: String, value: $name_ident) -> Option<$name_ident> {
           self.primary_index.insert(key, value)
         }
 
@@ -99,7 +99,7 @@ impl ComponentBuilder {
           self.primary_index = HashMap::new();
         }
 
-        pub fn $remove_ident(&mut self, key: &'a str) {
+        pub fn $remove_ident(&mut self, key: String) {
           self.primary_index.remove(&key);
         }
       }
@@ -113,7 +113,7 @@ impl ComponentBuilder {
     let plural_ident = self.idents.plural.snake.clone();
 
     quote_tokens!(context,
-      pub $plural_ident: $index_ident<'a>,
+      pub $plural_ident: $index_ident,
     )
   }
 

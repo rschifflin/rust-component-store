@@ -27,14 +27,14 @@ impl ECSBuilder {
 
     let structure = quote_item!(context,
       #[deriving(Show, Clone)]
-      pub struct ECS<'a> {
+      pub struct ECS {
         $component_decls
       };
     );
 
     let implementation = quote_item!(context,
-      impl<'a> ECS<'a> {
-        pub fn new() -> ECS<'a> {
+      impl ECS {
+        pub fn new() -> ECS {
           ECS {
             $component_inits
           }
