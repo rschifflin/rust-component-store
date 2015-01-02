@@ -1,14 +1,12 @@
 pub fn snake_case(s: &String) -> String {
-  let mut snake = s.to_ascii()
-    .iter()
-    .fold(String::new(), |acc, letter| -> String {
-      if letter.is_uppercase() { append_upper(acc, letter.to_lowercase().as_char()) }
-      else if [' ', '-', '_'].contains(&letter.as_char()) { append_seperator(acc) }
-      else { append_other(acc, letter.to_lowercase().as_char()) }
+  let mut snake = s.chars().fold(String::new(), |acc, letter| -> String {
+      if letter.is_uppercase() { append_upper(acc, letter.to_lowercase()) }
+      else if [' ', '-', '_'].contains(&letter) { append_seperator(acc) }
+      else { append_other(acc, letter.to_lowercase()) }
     });
 
-  match snake.to_ascii().last() {
-    Some(last) if last == &'_'.to_ascii() => {
+  match snake.chars().next_back() {
+    Some(last) if last == '_' => {
       snake.pop();
       snake
     }
@@ -17,12 +15,12 @@ pub fn snake_case(s: &String) -> String {
 }
 
 fn append_upper(mut prev: String, tail: char) -> String {
-  match prev.to_ascii().last() {
+  match prev.chars().next_back() {
     None => {
       prev.push(tail);
       prev
     }
-    Some(last) if last == &'_'.to_ascii() => {
+    Some(last) if last == '_' => {
       prev.push(tail);
       prev
     }
@@ -35,9 +33,9 @@ fn append_upper(mut prev: String, tail: char) -> String {
 }
 
 fn append_seperator(mut prev: String) -> String {
-  match prev.to_ascii().last() {
+  match prev.chars().next_back() {
     None => prev,
-    Some(&last) if last == '_'.to_ascii() => prev,
+    Some(last) if last == '_' => prev,
     _ => {
       prev.push('_');
       prev
