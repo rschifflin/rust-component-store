@@ -47,7 +47,7 @@ impl ComponentBuilder {
       plural: plural.clone(),
       indices: indices,
       idents: ComponentBuilderIdents {
-        name: IdentPair::new(&name),
+        name: IdentPair::new(&(name.clone() + "Component")),
         plural: IdentPair::new(&plural),
         index: IdentPair::new(&(name.clone() + "Index")),
         find: IdentPair::new(&("find_".to_string() + name.as_slice())),
