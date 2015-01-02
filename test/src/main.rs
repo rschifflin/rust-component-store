@@ -24,7 +24,7 @@ component_store!(
     Color
     Position/Positions <- Range
     Entry/Entries
-)
+);
 
 fn main() {
   let mut ecs = ECS::new();
