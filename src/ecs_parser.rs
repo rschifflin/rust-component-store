@@ -58,7 +58,7 @@ fn parse_component(parser: &mut Parser) -> Result<ComponentBuilder, &'static str
   parse_component_name(parser).and_then(|name| -> Result<ComponentBuilder, &'static str> {
     parse_optional_plural(parser).and_then(|plural| -> Result<ComponentBuilder, &'static str> {
       parse_optional_indices(parser).and_then(|indices| -> Result<ComponentBuilder, &'static str> {
-        let plural_or_default = plural.clone().unwrap_or(name + "s".to_string());
+        let plural_or_default = plural.clone().unwrap_or(name.clone() + "s");
         let indices_or_default = indices.clone().unwrap_or(Vec::new());
         Ok(ComponentBuilder::new(name.clone(), plural_or_default, indices_or_default))
       })

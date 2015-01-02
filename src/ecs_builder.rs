@@ -12,7 +12,7 @@ impl ECSBuilder {
   pub fn build(&self, context: &ExtCtxt) -> Vec<P<ast::Item>> {
     let component_indices: Vec<Option<P<ast::Item>>> =
       self.component_builders.iter().fold(vec![], |acc, builder| -> Vec<Option<P<ast::Item>>> {
-        acc + builder.build_index(context)
+        acc + builder.build_index(context).as_slice()
       });
 
     let component_decls: Vec<Vec<ast::TokenTree>> =
@@ -42,7 +42,7 @@ impl ECSBuilder {
       }
     );
 
-    let items = component_indices + vec!(structure, implementation);
+    let items = component_indices + &[structure, implementation];
     items.into_iter().map(|item| item.unwrap()).collect()
   }
 }

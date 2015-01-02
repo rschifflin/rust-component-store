@@ -49,12 +49,12 @@ impl ComponentBuilder {
       idents: ComponentBuilderIdents {
         name: IdentPair::new(&name),
         plural: IdentPair::new(&plural),
-        index: IdentPair::new(&(name + "Index")),
-        find: IdentPair::new(&("find_".to_string() + name)),
-        find_all: IdentPair::new(&("find_all_".to_string() + plural)),
-        remove: IdentPair::new(&("remove_".to_string() + name)),
-        remove_all: IdentPair::new(&("remove_all_".to_string() + plural)),
-        update: IdentPair::new(&("update_".to_string() + name))
+        index: IdentPair::new(&(name.clone() + "Index")),
+        find: IdentPair::new(&("find_".to_string() + name.as_slice())),
+        find_all: IdentPair::new(&("find_all_".to_string() + plural.as_slice())),
+        remove: IdentPair::new(&("remove_".to_string() + name.as_slice())),
+        remove_all: IdentPair::new(&("remove_all_".to_string() + plural.as_slice())),
+        update: IdentPair::new(&("update_".to_string() + name.as_slice()))
       }
     }
   }
