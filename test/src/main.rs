@@ -37,7 +37,7 @@ fn main() {
 
   ecs.entries.update_entry("e1".to_string(), EntryComponent { data: 12340912 });
   ecs.entries.update_entry("e2".to_string(), EntryComponent { data: 20958129 });
-  ecs.entries.remove_entry("e2".to_string());
+  ecs.entries.remove_entry(&"e2".to_string());
 
   println!("Colors: {}", ecs.colors.find_all_colors());
   println!("Entries: {}", ecs.entries.find_all_entries());

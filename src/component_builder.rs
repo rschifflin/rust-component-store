@@ -87,8 +87,8 @@ impl ComponentBuilder {
           self.primary_index.values().collect()
         }
 
-        pub fn $find_ident(&self, key: String) -> Option<&$name_ident> {
-          self.primary_index.get(&key)
+        pub fn $find_ident(&self, key: &String) -> Option<&$name_ident> {
+          self.primary_index.get(key)
         }
 
         pub fn $update_ident(&mut self, key: String, value: $name_ident) -> Option<$name_ident> {
@@ -99,8 +99,8 @@ impl ComponentBuilder {
           self.primary_index = HashMap::new();
         }
 
-        pub fn $remove_ident(&mut self, key: String) {
-          self.primary_index.remove(&key);
+        pub fn $remove_ident(&mut self, key: &String) {
+          self.primary_index.remove(key);
         }
       }
     );
