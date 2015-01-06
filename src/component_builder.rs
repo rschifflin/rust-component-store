@@ -4,7 +4,7 @@ use syntax::ext::base::ExtCtxt;
 use syntax::parse::token;
 use utils::string_utils::snake_case;
 
-#[deriving(Show, Clone)]
+#[derive(Show, Clone)]
 pub struct IdentPair {
   snake: ast::Ident,
   camel: ast::Ident
@@ -19,7 +19,7 @@ impl IdentPair {
   }
 }
 
-#[deriving(Show, Clone)]
+#[derive(Show, Clone)]
 pub struct ComponentBuilder {
   pub name: String,
   pub plural: String,
@@ -28,7 +28,7 @@ pub struct ComponentBuilder {
   pub idents: ComponentBuilderIdents
 }
 
-#[deriving(Show, Clone)]
+#[derive(Show, Clone)]
 pub struct ComponentBuilderIdents {
   pub name: IdentPair,
   pub plural: IdentPair,
@@ -69,7 +69,7 @@ impl ComponentBuilder {
     let update_ident = self.idents.update.snake.clone();
 
     let structure = quote_item!(context,
-      #[deriving(Clone, Show)]
+      #[derive(Clone, Show)]
       pub struct $index_ident {
         primary_index: HashMap<String, $name_ident>
       }

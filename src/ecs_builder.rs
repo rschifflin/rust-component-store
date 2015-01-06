@@ -3,7 +3,7 @@ use syntax::ptr::P;
 use component_builder::ComponentBuilder;
 use syntax::ext::base::ExtCtxt;
 
-#[deriving(Show)]
+#[derive(Show)]
 pub struct ECSBuilder {
   pub component_builders: Vec<ComponentBuilder>
 }
@@ -26,7 +26,7 @@ impl ECSBuilder {
       }).collect();
 
     let structure = quote_item!(context,
-      #[deriving(Show, Clone)]
+      #[derive(Show, Clone)]
       pub struct ECS {
         $component_decls
       };

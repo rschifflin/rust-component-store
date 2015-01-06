@@ -4,17 +4,17 @@
 extern crate component_store;
 
 use std::collections::HashMap;
-#[deriving(Show, Clone)]
+#[derive(Show, Clone)]
 pub struct PositionComponent;
 
-#[deriving(Show, Clone)]
+#[derive(Show, Clone)]
 pub struct ColorComponent {
   r: u8,
   g: u8,
   b: u8
 }
 
-#[deriving(Show, Clone)]
+#[derive(Show, Clone)]
 pub struct EntryComponent {
   data: uint
 }
