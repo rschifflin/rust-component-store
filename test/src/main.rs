@@ -1,22 +1,22 @@
-#![feature(phase)]
+#![feature(plugin)]
+#![plugin(component_store)]
 
-#[phase(plugin)]
 extern crate component_store;
 
 use std::collections::HashMap;
-#[derive(Show, Clone)]
+#[derive(Debug, Clone)]
 pub struct PositionComponent;
 
-#[derive(Show, Clone)]
+#[derive(Debug, Clone)]
 pub struct ColorComponent {
   r: u8,
   g: u8,
   b: u8
 }
 
-#[derive(Show, Clone)]
+#[derive(Debug, Clone)]
 pub struct EntryComponent {
-  data: uint
+  data: usize
 }
 
 component_store!(
@@ -39,6 +39,6 @@ fn main() {
   ecs.entries.update_entry("e2".to_string(), EntryComponent { data: 20958129 });
   ecs.entries.remove_entry(&"e2".to_string());
 
-  println!("Colors: {}", ecs.colors.find_all_colors());
-  println!("Entries: {}", ecs.entries.find_all_entries());
+  println!("Colors: {:?}", ecs.colors.find_all_colors());
+  println!("Entries: {:?}", ecs.entries.find_all_entries());
 }

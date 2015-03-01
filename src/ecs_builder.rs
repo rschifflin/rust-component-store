@@ -3,7 +3,7 @@ use syntax::ptr::P;
 use component_builder::ComponentBuilder;
 use syntax::ext::base::ExtCtxt;
 
-#[derive(Show)]
+#[derive(Debug)]
 pub struct ECSBuilder {
   pub component_builders: Vec<ComponentBuilder>
 }
@@ -12,7 +12,7 @@ impl ECSBuilder {
   pub fn build(&self, context: &ExtCtxt) -> Vec<P<ast::Item>> {
     let component_indices: Vec<Option<P<ast::Item>>> =
       self.component_builders.iter().fold(vec![], |acc, builder| -> Vec<Option<P<ast::Item>>> {
-        acc + builder.build_index(context).as_slice()
+        acc + &*builder.build_index(context)
       });
 
     let component_decls: Vec<Vec<ast::TokenTree>> =
@@ -26,7 +26,7 @@ impl ECSBuilder {
       }).collect();
 
     let structure = quote_item!(context,
-      #[derive(Show, Clone)]
+      #[derive(Debug, Clone)]
       pub struct ECS {
         $component_decls
       };

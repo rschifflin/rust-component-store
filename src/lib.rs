@@ -1,5 +1,5 @@
 #![crate_type="dylib"]
-#![feature(plugin_registrar, quote)]
+#![feature(plugin_registrar, quote, rustc_private, unicode)]
 
 extern crate syntax;
 extern crate rustc;
@@ -34,7 +34,7 @@ fn expand(context: &mut ExtCtxt, _: Span, tokens: &[TokenTree]) -> Box<MacResult
     Err(e) => panic!(e)
   };
   let ecs = MacroResult { ecs: ecs_builder.build(context) };
-  box ecs as Box<MacResult>
+  Box::new(ecs) as Box<MacResult>
 }
 
 struct MacroResult {

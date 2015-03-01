@@ -19,7 +19,7 @@ pub fn parse(parser: &mut Parser) -> Result<ECSBuilder, &'static str> {
 fn parse_component_header(parser: &mut Parser) -> Result<(), &'static str> {
   match parse_ident(parser) {
     Ok(parsed_ident) =>{
-      if parsed_ident.as_slice() == "components" {
+      if &*parsed_ident == "components" {
         if parser.eat(&token::Colon) { Ok(()) }
         else { Err("Expected header to be followed by a colon") }
       }

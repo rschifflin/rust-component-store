@@ -4,7 +4,7 @@ use syntax::ext::base::ExtCtxt;
 use syntax::parse::token;
 use utils::string_utils::snake_case;
 
-#[derive(Show, Clone)]
+#[derive(Debug, Clone)]
 pub struct IdentPair {
   snake: ast::Ident,
   camel: ast::Ident
@@ -13,13 +13,13 @@ pub struct IdentPair {
 impl IdentPair {
   pub fn new(name: &String) -> IdentPair {
     IdentPair {
-      snake: ast::Ident::new(token::intern(snake_case(name).as_slice())),
-      camel: ast::Ident::new(token::intern(name.as_slice())),
+      snake: ast::Ident::new(token::intern(&*snake_case(name))),
+      camel: ast::Ident::new(token::intern(&*name)),
     }
   }
 }
 
-#[derive(Show, Clone)]
+#[derive(Debug, Clone)]
 pub struct ComponentBuilder {
   pub name: String,
   pub plural: String,
@@ -28,7 +28,7 @@ pub struct ComponentBuilder {
   pub idents: ComponentBuilderIdents
 }
 
-#[derive(Show, Clone)]
+#[derive(Debug, Clone)]
 pub struct ComponentBuilderIdents {
   pub name: IdentPair,
   pub plural: IdentPair,
@@ -50,11 +50,11 @@ impl ComponentBuilder {
         name: IdentPair::new(&(name.clone() + "Component")),
         plural: IdentPair::new(&plural),
         index: IdentPair::new(&(name.clone() + "Index")),
-        find: IdentPair::new(&("find_".to_string() + name.as_slice())),
-        find_all: IdentPair::new(&("find_all_".to_string() + plural.as_slice())),
-        remove: IdentPair::new(&("remove_".to_string() + name.as_slice())),
-        remove_all: IdentPair::new(&("remove_all_".to_string() + plural.as_slice())),
-        update: IdentPair::new(&("update_".to_string() + name.as_slice()))
+        find: IdentPair::new(&("find_".to_string() + &*name)),
+        find_all: IdentPair::new(&("find_all_".to_string() + &*plural)),
+        remove: IdentPair::new(&("remove_".to_string() + &*name)),
+        remove_all: IdentPair::new(&("remove_all_".to_string() + &*plural)),
+        update: IdentPair::new(&("update_".to_string() + &*name))
       }
     }
   }
@@ -69,7 +69,7 @@ impl ComponentBuilder {
     let update_ident = self.idents.update.snake.clone();
 
     let structure = quote_item!(context,
-      #[derive(Clone, Show)]
+      #[derive(Clone, Debug)]
       pub struct $index_ident {
         primary_index: HashMap<String, $name_ident>
       }
