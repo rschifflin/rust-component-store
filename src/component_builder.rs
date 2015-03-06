@@ -87,7 +87,8 @@ impl ComponentBuilder {
           self.primary_index.values().collect()
         }
 
-        pub fn $find_ident(&self, key: &String) -> Option<&$name_ident> {
+        pub fn $find_ident<Q: ?Sized>(&self, key: &Q) -> Option<&$name_ident>
+          where String: std::borrow::Borrow<Q>, Q: std::hash::Hash + std::cmp::Eq {
           self.primary_index.get(key)
         }
 
@@ -99,7 +100,8 @@ impl ComponentBuilder {
           self.primary_index = HashMap::new();
         }
 
-        pub fn $remove_ident(&mut self, key: &String) {
+        pub fn $remove_ident<Q: ?Sized>(&mut self, key: &Q)
+          where String: std::borrow::Borrow<Q>, Q: std::hash::Hash + std::cmp::Eq {
           self.primary_index.remove(key);
         }
       }
